@@ -7,6 +7,18 @@ import (
 	"github.com/AdiKhoironHasan/bookservices-api-gateway/domain/dto"
 )
 
+func (r GRPCClient) BooksPing(ctx context.Context) (*protoBook.PingRes, error) {
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
+	data, err := r.book.Ping(ctx, &protoBook.PingReq{})
+	if err != nil {
+		return nil, err
+	}
+
+	return data, nil
+}
+
 func (r GRPCClient) BookList(ctx context.Context, dataReq *dto.BookReqDTO) (*protoBook.BookListRes, error) {
 	ctx, cancel := context.WithCancel(ctx)
 	defer cancel()

@@ -3,7 +3,6 @@ package handler
 import (
 	"github.com/AdiKhoironHasan/bookservices-api-gateway/config"
 	"github.com/AdiKhoironHasan/bookservices-api-gateway/domain/service"
-	"github.com/AdiKhoironHasan/bookservices-api-gateway/proto/hello"
 
 	protoBook "github.com/AdiKhoironHasan/bookservice-protobank/proto/book"
 )
@@ -11,7 +10,6 @@ import (
 // Interface is an interface
 type Interface interface {
 	// interface of grpc handler
-	hello.HelloServer
 	protoBook.BookServiceServer
 }
 
@@ -20,7 +18,6 @@ type Handler struct {
 	config *config.Config
 	repo   *service.Repositories
 
-	hello.UnimplementedHelloServer
 	protoBook.UnimplementedBookServiceServer
 }
 
