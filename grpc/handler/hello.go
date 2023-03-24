@@ -4,7 +4,7 @@ package handler
 // 	"context"
 // 	"fmt"
 
-// 	"github.com/AdiKhoironHasan/bookservices/proto/hello"
+// 	"github.com/AdiKhoironHasan/bookservices-api-gateway/proto/hello"
 // )
 
 // // Ping is a function

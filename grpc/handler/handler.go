@@ -1,18 +1,18 @@
 package handler
 
 import (
-	"github.com/AdiKhoironHasan/bookservices/config"
-	"github.com/AdiKhoironHasan/bookservices/domain/service"
-	"github.com/AdiKhoironHasan/bookservices/proto/book"
-	"github.com/AdiKhoironHasan/bookservices/proto/hello"
-	// "github.com/AdiKhoironHasan/bookservices/proto/foo"
+	"github.com/AdiKhoironHasan/bookservices-api-gateway/config"
+	"github.com/AdiKhoironHasan/bookservices-api-gateway/domain/service"
+	"github.com/AdiKhoironHasan/bookservices-api-gateway/proto/hello"
+
+	protoBook "github.com/AdiKhoironHasan/bookservice-protobank/proto/book"
 )
 
 // Interface is an interface
 type Interface interface {
 	// interface of grpc handler
 	hello.HelloServer
-	book.BookServiceServer
+	protoBook.BookServiceServer
 }
 
 // Handler is struct
@@ -21,7 +21,7 @@ type Handler struct {
 	repo   *service.Repositories
 
 	hello.UnimplementedHelloServer
-	book.UnimplementedBookServiceServer
+	protoBook.UnimplementedBookServiceServer
 }
 
 // NewHandler is a constructor

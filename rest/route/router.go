@@ -1,11 +1,11 @@
 package route
 
 import (
-	"github.com/AdiKhoironHasan/bookservices/config"
-	"github.com/AdiKhoironHasan/bookservices/domain/service"
-	"github.com/AdiKhoironHasan/bookservices/grpc/client"
-	"github.com/AdiKhoironHasan/bookservices/rest/handler"
-	"github.com/AdiKhoironHasan/bookservices/rest/middleware"
+	"github.com/AdiKhoironHasan/bookservices-api-gateway/config"
+	"github.com/AdiKhoironHasan/bookservices-api-gateway/domain/service"
+	"github.com/AdiKhoironHasan/bookservices-api-gateway/grpc/client"
+	"github.com/AdiKhoironHasan/bookservices-api-gateway/rest/handler"
+	"github.com/AdiKhoironHasan/bookservices-api-gateway/rest/middleware"
 	"github.com/gin-gonic/gin"
 )
 
@@ -46,6 +46,7 @@ func (r *Router) Init() *gin.Engine {
 	e.GET("/api/v1/ping/books", helloHandler.Ping)
 	e.GET("/api/v1/books", bookHandler.List)
 	e.POST("/api/v1/books", bookHandler.Store)
+	e.GET("/api/v1/books/:id", bookHandler.Detail)
 
 	return e
 }

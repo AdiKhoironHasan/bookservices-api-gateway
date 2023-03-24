@@ -6,8 +6,8 @@ import (
 	"os"
 	"time"
 
-	"github.com/AdiKhoironHasan/bookservices/config"
-	"github.com/AdiKhoironHasan/bookservices/domain/entity"
+	"github.com/AdiKhoironHasan/bookservices-api-gateway/config"
+	"github.com/AdiKhoironHasan/bookservices-api-gateway/domain/entity"
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"

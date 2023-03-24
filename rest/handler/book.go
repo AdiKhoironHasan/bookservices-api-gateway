@@ -1,10 +1,10 @@
 package handler
 
 import (
-	"fmt"
 	"net/http"
+	"strconv"
 
-	"github.com/AdiKhoironHasan/bookservices/domain/dto"
+	"github.com/AdiKhoironHasan/bookservices-api-gateway/domain/dto"
 	"github.com/gin-gonic/gin"
 )
 
@@ -20,7 +20,7 @@ func (r *BookHandler) List(c *gin.Context) {
 	data, err := r.client.BookList(c)
 	if err != nil {
 		c.AbortWithStatusJSON(http.StatusInternalServerError, map[string]string{
-			"error": fmt.Sprintf("%v", err),
+			"error": err.Error(),
 		})
 		return
 	}
@@ -39,24 +39,49 @@ func (r *BookHandler) Store(c *gin.Context) {
 	if err != nil {
 		c.AbortWithStatusJSON(http.StatusInternalServerError, dto.ApiResDTO{
 			Code:    http.StatusUnprocessableEntity,
-			Message: fmt.Sprintf("%v", err),
+			Message: err.Error(),
 		})
 		return
 	}
 
-	data, err := r.client.BookStore(c)
+	_, err = r.client.BookStore(c, &bookReq)
 	if err != nil {
 		c.AbortWithStatusJSON(http.StatusInternalServerError, dto.ApiResDTO{
 			Code:    http.StatusInternalServerError,
-			Message: fmt.Sprintf("%v", err),
+			Message: err.Error(),
 		})
 		return
 	}
 
 	c.JSON(http.StatusOK, dto.ApiResDTO{
 		Code:    http.StatusOK,
-		Data:    data.Books,
 		Message: "Success store book",
 	},
 	)
+}
+
+func (r *BookHandler) Detail(c *gin.Context) {
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, dto.ApiResDTO{
+			Code:    http.StatusUnprocessableEntity,
+			Message: err.Error(),
+		})
+		return
+	}
+
+	data, err := r.client.BookDetail(c, id)
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, dto.ApiResDTO{
+			Code:    http.StatusInternalServerError,
+			Message: err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, dto.ApiResDTO{
+		Code:    http.StatusOK,
+		Message: "Success get book",
+		Data:    data.Book,
+	})
 }

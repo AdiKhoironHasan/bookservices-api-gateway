@@ -3,8 +3,8 @@ package handler
 // import (
 // 	"context"
 
-// 	"github.com/AdiKhoironHasan/bookservices/domain/entity"
-// 	"github.com/AdiKhoironHasan/bookservices/proto/book"
+// 	"github.com/AdiKhoironHasan/bookservices-api-gateway/domain/entity"
+// 	"github.com/AdiKhoironHasan/bookservices-api-gateway/proto/book"
 // )
 
 // // Ping is a function

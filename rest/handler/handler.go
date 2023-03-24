@@ -1,8 +1,8 @@
 package handler
 
 import (
-	"github.com/AdiKhoironHasan/bookservices/domain/service"
-	"github.com/AdiKhoironHasan/bookservices/grpc/client"
+	"github.com/AdiKhoironHasan/bookservices-api-gateway/domain/service"
+	"github.com/AdiKhoironHasan/bookservices-api-gateway/grpc/client"
 )
 
 // Handler is a struct

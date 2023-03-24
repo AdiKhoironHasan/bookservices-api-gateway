@@ -1,8 +1,8 @@
 package cmd
 
 import (
-	"github.com/AdiKhoironHasan/bookservices/config"
-	"github.com/AdiKhoironHasan/bookservices/domain/service"
+	"github.com/AdiKhoironHasan/bookservices-api-gateway/config"
+	"github.com/AdiKhoironHasan/bookservices-api-gateway/domain/service"
 )
 
 // CommandOption is an option type

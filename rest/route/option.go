@@ -1,9 +1,9 @@
 package route
 
 import (
-	"github.com/AdiKhoironHasan/bookservices/config"
-	"github.com/AdiKhoironHasan/bookservices/domain/service"
-	"github.com/AdiKhoironHasan/bookservices/grpc/client"
+	"github.com/AdiKhoironHasan/bookservices-api-gateway/config"
+	"github.com/AdiKhoironHasan/bookservices-api-gateway/domain/service"
+	"github.com/AdiKhoironHasan/bookservices-api-gateway/grpc/client"
 )
 
 // Router is a struct contains dependencies needed

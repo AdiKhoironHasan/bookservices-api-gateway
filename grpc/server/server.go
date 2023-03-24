@@ -1,13 +1,13 @@
 package server
 
 import (
-	"github.com/AdiKhoironHasan/bookservices/config"
-	"github.com/AdiKhoironHasan/bookservices/domain/service"
-	"github.com/AdiKhoironHasan/bookservices/grpc/handler"
-	"github.com/AdiKhoironHasan/bookservices/grpc/interceptor"
-	"github.com/AdiKhoironHasan/bookservices/proto/book"
-	"github.com/AdiKhoironHasan/bookservices/proto/hello"
+	"github.com/AdiKhoironHasan/bookservices-api-gateway/config"
+	"github.com/AdiKhoironHasan/bookservices-api-gateway/domain/service"
+	"github.com/AdiKhoironHasan/bookservices-api-gateway/grpc/handler"
+	"github.com/AdiKhoironHasan/bookservices-api-gateway/grpc/interceptor"
+	"github.com/AdiKhoironHasan/bookservices-api-gateway/proto/hello"
 
+	protoBook "github.com/AdiKhoironHasan/bookservice-protobank/proto/book"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 )
@@ -44,7 +44,7 @@ func (s *Server) Run(port int) error {
 
 	// register from proto
 	hello.RegisterHelloServer(server, handlers)
-	book.RegisterBookServiceServer(server, handlers)
+	protoBook.RegisterBookServiceServer(server, handlers)
 
 	// register reflection
 	reflection.Register(server)
