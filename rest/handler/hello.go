@@ -1,18 +1,14 @@
 package handler
 
 import (
-	"fmt"
 	"net/http"
 
+	"github.com/AdiKhoironHasan/bookservices-api-gateway/domain/dto"
 	"github.com/gin-gonic/gin"
 )
 
 type HelloHandler struct {
 	*Handler
-}
-
-type HelloRequest struct {
-	text string
 }
 
 func NewHelloHandler(h *Handler) *HelloHandler {
@@ -22,14 +18,16 @@ func NewHelloHandler(h *Handler) *HelloHandler {
 func (r *HelloHandler) Ping(c *gin.Context) {
 	rsp, err := r.client.BooksPing(c)
 	if err != nil {
-		c.AbortWithStatusJSON(http.StatusUnprocessableEntity, map[string]string{
-			"error": fmt.Sprintf("%v", err),
+		c.AbortWithStatusJSON(http.StatusUnprocessableEntity, dto.ApiResDTO{
+			Code:    http.StatusInternalServerError,
+			Message: err.Error(),
 		})
 		return
 	}
 
-	c.JSON(http.StatusOK, map[string]interface{}{
-		"data": rsp,
+	c.JSON(http.StatusOK, dto.ApiResDTO{
+		Code:    http.StatusOK,
+		Message: "Success ping books services",
+		Data:    rsp,
 	})
-	return
 }

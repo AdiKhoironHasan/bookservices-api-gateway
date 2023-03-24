@@ -47,6 +47,8 @@ func (r *Router) Init() *gin.Engine {
 	e.GET("/api/v1/books", bookHandler.List)
 	e.POST("/api/v1/books", bookHandler.Store)
 	e.GET("/api/v1/books/:id", bookHandler.Detail)
+	e.PUT("/api/v1/books/:id", bookHandler.Update)
+	e.DELETE("/api/v1/books/:id", bookHandler.Delete)
 
 	return e
 }

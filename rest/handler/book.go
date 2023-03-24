@@ -6,6 +6,7 @@ import (
 
 	"github.com/AdiKhoironHasan/bookservices-api-gateway/domain/dto"
 	"github.com/gin-gonic/gin"
+	"google.golang.org/grpc/status"
 )
 
 type BookHandler struct {
@@ -17,18 +18,23 @@ func NewBookHandler(h *Handler) *BookHandler {
 }
 
 func (r *BookHandler) List(c *gin.Context) {
-	data, err := r.client.BookList(c)
-	if err != nil {
-		c.AbortWithStatusJSON(http.StatusInternalServerError, map[string]string{
-			"error": err.Error(),
+	bookReq := dto.BookReqDTO{
+		Title: c.Query("title"),
+	}
+
+	data, err := r.client.BookList(c, &bookReq)
+	if status, ok := status.FromError(err); ok {
+		c.AbortWithStatusJSON(int(status.Code()), dto.ApiResDTO{
+			Code:    int(status.Code()),
+			Message: status.Message(),
 		})
 		return
 	}
 
-	c.JSON(http.StatusOK, map[string]interface{}{
-		"code":    http.StatusOK,
-		"data":    data.Books,
-		"message": "Success get all books",
+	c.JSON(http.StatusOK, dto.ApiResDTO{
+		Code:    http.StatusOK,
+		Data:    data,
+		Message: "Success get list book",
 	})
 }
 
@@ -37,7 +43,7 @@ func (r *BookHandler) Store(c *gin.Context) {
 
 	err := c.Bind(&bookReq)
 	if err != nil {
-		c.AbortWithStatusJSON(http.StatusInternalServerError, dto.ApiResDTO{
+		c.AbortWithStatusJSON(http.StatusUnprocessableEntity, dto.ApiResDTO{
 			Code:    http.StatusUnprocessableEntity,
 			Message: err.Error(),
 		})
@@ -45,10 +51,10 @@ func (r *BookHandler) Store(c *gin.Context) {
 	}
 
 	_, err = r.client.BookStore(c, &bookReq)
-	if err != nil {
-		c.AbortWithStatusJSON(http.StatusInternalServerError, dto.ApiResDTO{
-			Code:    http.StatusInternalServerError,
-			Message: err.Error(),
+	if status, ok := status.FromError(err); ok {
+		c.AbortWithStatusJSON(int(status.Code()), dto.ApiResDTO{
+			Code:    int(status.Code()),
+			Message: status.Message(),
 		})
 		return
 	}
@@ -61,27 +67,90 @@ func (r *BookHandler) Store(c *gin.Context) {
 }
 
 func (r *BookHandler) Detail(c *gin.Context) {
-	id, err := strconv.Atoi(c.Param("id"))
+	Id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
-		c.AbortWithStatusJSON(http.StatusInternalServerError, dto.ApiResDTO{
+		c.AbortWithStatusJSON(http.StatusUnprocessableEntity, dto.ApiResDTO{
 			Code:    http.StatusUnprocessableEntity,
 			Message: err.Error(),
 		})
 		return
 	}
 
-	data, err := r.client.BookDetail(c, id)
-	if err != nil {
-		c.AbortWithStatusJSON(http.StatusInternalServerError, dto.ApiResDTO{
-			Code:    http.StatusInternalServerError,
-			Message: err.Error(),
+	data, err := r.client.BookDetail(c, Id)
+	if status, ok := status.FromError(err); ok {
+		c.AbortWithStatusJSON(int(status.Code()), dto.ApiResDTO{
+			Code:    int(status.Code()),
+			Message: status.Message(),
 		})
 		return
 	}
 
 	c.JSON(http.StatusOK, dto.ApiResDTO{
 		Code:    http.StatusOK,
-		Message: "Success get book",
+		Message: "Success get detail book",
 		Data:    data.Book,
 	})
+}
+
+func (r *BookHandler) Update(c *gin.Context) {
+	bookReq := dto.BookReqDTO{}
+
+	Id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusUnprocessableEntity, dto.ApiResDTO{
+			Code:    http.StatusUnprocessableEntity,
+			Message: err.Error(),
+		})
+		return
+	}
+
+	err = c.Bind(&bookReq)
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusUnprocessableEntity, dto.ApiResDTO{
+			Code:    http.StatusUnprocessableEntity,
+			Message: err.Error(),
+		})
+		return
+	}
+
+	_, err = r.client.BookUpdate(c, &bookReq, Id)
+	if status, ok := status.FromError(err); ok {
+		c.AbortWithStatusJSON(int(status.Code()), dto.ApiResDTO{
+			Code:    int(status.Code()),
+			Message: status.Message(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, dto.ApiResDTO{
+		Code:    http.StatusOK,
+		Message: "Success store book",
+	},
+	)
+}
+
+func (r *BookHandler) Delete(c *gin.Context) {
+	Id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusUnprocessableEntity, dto.ApiResDTO{
+			Code:    http.StatusUnprocessableEntity,
+			Message: err.Error(),
+		})
+		return
+	}
+
+	_, err = r.client.BookDelete(c, Id)
+	if status, ok := status.FromError(err); ok {
+		c.AbortWithStatusJSON(int(status.Code()), dto.ApiResDTO{
+			Code:    int(status.Code()),
+			Message: status.Message(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, dto.ApiResDTO{
+		Code:    http.StatusOK,
+		Message: "Success delete book",
+	},
+	)
 }
