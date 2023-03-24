@@ -55,11 +55,11 @@ func (r *Router) Init() *gin.Engine {
 
 	// Users Services
 	apiV1.GET("/ping/users", userHandler.Ping)
-	// apiV1.GET("/users", userHandler.List)
-	// apiV1.POST("/users", userHandler.Store)
-	// apiV1.GET("/users/:id", userHandler.Detail)
-	// apiV1.PUT("/users/:id", userHandler.Update)
-	// apiV1.DELETE("/users/:id", userHandler.Delete)
+	apiV1.GET("/users", userHandler.List)
+	apiV1.POST("/users", userHandler.Store)
+	apiV1.GET("/users/:id", userHandler.Detail)
+	apiV1.PUT("/users/:id", userHandler.Update)
+	apiV1.DELETE("/users/:id", userHandler.Delete)
 
 	return e
 }

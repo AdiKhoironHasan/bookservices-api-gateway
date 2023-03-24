@@ -11,7 +11,7 @@ import (
 func Run() {
 	flag.Parse()
 
-	conn, err := grpc.Dial(*bookAddress, grpc.WithTransportCredentials(insecure.NewCredentials()))
+	conn, err := grpc.Dial(*Address, grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
 		log.Fatalf("Cannot connect to server :%v\n", err)
 	}

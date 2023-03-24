@@ -11,15 +11,10 @@ import (
 )
 
 var (
-	bookServerHost string
-	bookServerPort string
-	bookDSN        string
-	bookAddress    *string
-
-	userServerHost string
-	userServerPort string
-	userDSN        string
-	userAddress    *string
+	ServerHost string
+	ServerPort int
+	DSN        string
+	Address    *string
 )
 
 // NewGRPCConn is a constructor
@@ -44,16 +39,15 @@ var (
 // }
 
 func NewGRPCConn_Book(cfg *config.Config) (*grpc.ClientConn, error) {
-	var (
-		bookServerHost = cfg.Dependency.BookServices.AppHostGRPC
-		bookServerPort = cfg.Dependency.BookServices.AppPortGRPC
-		bookDSN        = fmt.Sprintf("%s:%d", bookServerHost, bookServerPort)
-		bookAddress    = flag.String("addr", bookDSN, "The address to connect books service")
-	)
+
+	ServerHost = cfg.Dependency.BookServices.AppHostGRPC
+	ServerPort = cfg.Dependency.BookServices.AppPortGRPC
+	DSN = fmt.Sprintf("%s:%d", ServerHost, ServerPort)
+	Address = flag.String("bookAddress", DSN, "The address to connect books service")
 
 	flag.Parse()
 
-	conn, err := grpc.Dial(*bookAddress,
+	conn, err := grpc.Dial(*Address,
 		grpc.WithTransportCredentials(insecure.NewCredentials()),
 		grpc.WithChainUnaryInterceptor(interceptor.UnaryAuthClientInterceptor()),
 		grpc.WithStreamInterceptor(interceptor.StreamAuthClientInterceptor()),
@@ -66,16 +60,14 @@ func NewGRPCConn_Book(cfg *config.Config) (*grpc.ClientConn, error) {
 }
 
 func NewGRPCConn_User(cfg *config.Config) (*grpc.ClientConn, error) {
-	var (
-		userServerHost = cfg.Dependency.UserServices.AppHostGRPC
-		userServerPort = cfg.Dependency.UserServices.AppPortGRPC
-		userDSN        = fmt.Sprintf("%s:%d", userServerHost, userServerPort)
-		userAddress    = flag.String("addr", userDSN, "The address to connect user service")
-	)
+	ServerHost = cfg.Dependency.UserServices.AppHostGRPC
+	ServerPort = cfg.Dependency.UserServices.AppPortGRPC
+	DSN = fmt.Sprintf("%s:%d", ServerHost, ServerPort)
+	Address = flag.String("userAddress", DSN, "The address to connect user service")
 
 	flag.Parse()
 
-	conn, err := grpc.Dial(*userAddress,
+	conn, err := grpc.Dial(*Address,
 		grpc.WithTransportCredentials(insecure.NewCredentials()),
 		grpc.WithChainUnaryInterceptor(interceptor.UnaryAuthClientInterceptor()),
 		grpc.WithStreamInterceptor(interceptor.StreamAuthClientInterceptor()),

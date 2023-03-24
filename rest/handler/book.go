@@ -52,7 +52,7 @@ func (r *BookHandler) List(c *gin.Context) {
 
 	c.JSON(http.StatusOK, dto.ApiResDTO{
 		Code:    http.StatusOK,
-		Data:    data,
+		Data:    data.Books,
 		Message: "Success get list book",
 	})
 }
@@ -149,7 +149,7 @@ func (r *BookHandler) Update(c *gin.Context) {
 
 	c.JSON(http.StatusOK, dto.ApiResDTO{
 		Code:    http.StatusOK,
-		Message: "Success store book",
+		Message: "Success update book",
 	},
 	)
 }
