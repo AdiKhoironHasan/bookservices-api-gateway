@@ -40,6 +40,7 @@ func (r GRPCClient) BookStore(ctx context.Context, bookReq *dto.BookReqDTO) (*pr
 	defer cancel()
 
 	protoBookReq := &protoBook.BookStoreReq{
+		AuthorId:    bookReq.AuthorID,
 		Title:       bookReq.Title,
 		Description: bookReq.Description,
 	}
@@ -74,6 +75,7 @@ func (r GRPCClient) BookUpdate(ctx context.Context, bookReq *dto.BookReqDTO, id 
 
 	protoBookReq := &protoBook.BookUpdateReq{
 		Id:          int64(id),
+		AuthorId:    bookReq.AuthorID,
 		Title:       bookReq.Title,
 		Description: bookReq.Description,
 	}

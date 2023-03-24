@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"fmt"
 	"net/http"
 	"strconv"
 
@@ -167,6 +168,7 @@ func (r *UserHandler) Delete(c *gin.Context) {
 
 	_, err = r.client.UserDelete(c, Id)
 	if err != nil {
+		fmt.Println(err.Error())
 		if status, ok := status.FromError(err); ok {
 			c.AbortWithStatusJSON(int(status.Code()), dto.ApiResDTO{
 				Code:    int(status.Code()),

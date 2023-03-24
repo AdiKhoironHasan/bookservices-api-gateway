@@ -39,7 +39,6 @@ var (
 // }
 
 func NewGRPCConn_Book(cfg *config.Config) (*grpc.ClientConn, error) {
-
 	ServerHost = cfg.Dependency.BookServices.AppHostGRPC
 	ServerPort = cfg.Dependency.BookServices.AppPortGRPC
 	DSN = fmt.Sprintf("%s:%d", ServerHost, ServerPort)
