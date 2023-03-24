@@ -40,14 +40,26 @@ func (r *Router) Init() *gin.Engine {
 	h := handler.NewHandler(r.repo, r.client)
 
 	bookHandler := handler.NewBookHandler(h)
+	userHandler := handler.NewUserHandler(h)
+
+	// api version
+	apiV1 := e.Group("api/v1")
 
 	// Books Services
-	e.GET("/api/v1/ping/books", bookHandler.Ping)
-	e.GET("/api/v1/books", bookHandler.List)
-	e.POST("/api/v1/books", bookHandler.Store)
-	e.GET("/api/v1/books/:id", bookHandler.Detail)
-	e.PUT("/api/v1/books/:id", bookHandler.Update)
-	e.DELETE("/api/v1/books/:id", bookHandler.Delete)
+	apiV1.GET("/ping/books", bookHandler.Ping)
+	apiV1.GET("/books", bookHandler.List)
+	apiV1.POST("/books", bookHandler.Store)
+	apiV1.GET("/books/:id", bookHandler.Detail)
+	apiV1.PUT("/books/:id", bookHandler.Update)
+	apiV1.DELETE("/books/:id", bookHandler.Delete)
+
+	// Users Services
+	apiV1.GET("/ping/users", userHandler.Ping)
+	// apiV1.GET("/users", userHandler.List)
+	// apiV1.POST("/users", userHandler.Store)
+	// apiV1.GET("/users/:id", userHandler.Detail)
+	// apiV1.PUT("/users/:id", userHandler.Update)
+	// apiV1.DELETE("/users/:id", userHandler.Delete)
 
 	return e
 }

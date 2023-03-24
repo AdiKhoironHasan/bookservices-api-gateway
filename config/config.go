@@ -25,16 +25,22 @@ type Config struct {
 	AppTimeZone string
 	GRPCPort    int
 	DBConfig
-	Dependency 
+	Dependency
 }
 
 type Dependency struct {
 	BookServices DependBookServices
+	UserServices DependUserServices
 }
 
 type DependBookServices struct {
-	AppPortGRPC    int
-	AppHostGRPC    string
+	AppPortGRPC int
+	AppHostGRPC string
+}
+
+type DependUserServices struct {
+	AppPortGRPC int
+	AppHostGRPC string
 }
 
 func New() *Config {
@@ -57,8 +63,12 @@ func New() *Config {
 		},
 		Dependency: Dependency{
 			BookServices: DependBookServices{
-				AppPortGRPC:    getEnvAsInt("BOOK_GRPC_PORT", 9000),
-				AppHostGRPC:    getEnv("BOOK_GRPC_HOST", "localhost"),
+				AppPortGRPC: getEnvAsInt("BOOK_GRPC_PORT", 9000),
+				AppHostGRPC: getEnv("BOOK_GRPC_HOST", "localhost"),
+			},
+			UserServices: DependUserServices{
+				AppPortGRPC: getEnvAsInt("USER_GRPC_PORT", 9000),
+				AppHostGRPC: getEnv("USER_GRPC_HOST", "localhost"),
 			},
 		},
 	}

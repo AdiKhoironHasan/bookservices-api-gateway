@@ -40,12 +40,17 @@ func main() {
 	app := cmd.NewCLI()
 	app.Commands = command.Build()
 
-	clientConnBooks, errClient := client.NewGRPCConn_Books(conf)
+	clientConnBook, errClient := client.NewGRPCConn_Book(conf)
 	if errClient != nil {
-		log.Fatalf("grpc client unable connect to server, %v", errClient)
+		log.Fatalf("grpc client unable connect to bookservice server, %v", errClient)
 	}
 
-	grpcClient := client.NewGRPCClient(clientConnBooks)
+	clientConnUser, errClient := client.NewGRPCConn_User(conf)
+	if errClient != nil {
+		log.Fatalf("grpc client unable connect to userservice, %v", errClient)
+	}
+
+	grpcClient := client.NewGRPCClient(clientConnBook, clientConnUser)
 	app.Action = func(_ *cli.Context) error {
 		router := route.NewRouter(
 			route.WithConfig(conf),
