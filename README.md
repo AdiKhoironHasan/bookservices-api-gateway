@@ -14,9 +14,6 @@ Each service has its own PostgreSQL database. GORM is used to access these datab
 <!-- GETTING STARTED -->
 ## Getting Started
 
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
-
 ### Prerequisites
 
 * PosgreSQL Database
