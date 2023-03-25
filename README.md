@@ -5,11 +5,11 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-The Book Services project is a set of microservices that enables users to manage books and users data. It consists of three main services: API Gateway Services, Book Services, and User Services. The communication between these services is done through gRPC, using the ProtoBank contract. The gRPC protocol implements rtoken to ensure the security of services against unauthorized access.
+The BookServices project is a set of microservices that enables users to manage books and user data. The project consists of three main services: bookservices-api-gateway, bookservices-books, and bookservices-users. In the BookServices project, Coreography pattern is used as part of the [Saga Pattern](https://microservices.io/patterns/data/saga.html). In the project, bookservices-api-gateway acts as the central communication and control point, forwarding external client requests and responses to internal microservices. Coreography pattern is used to ensure that each microservice can handle its own transactional part independently, while bookservices-api-gateway coordinates and orchestrates them to achieve the overall goal.
 
-External communication is done via REST API, which is processed through API Gateway Services, and then forwarded to the target service using gRPC. JWT is used to ensure the security of client-to-service communication.
+Internal communication between services is done through gRPC, using the ProtoBank contract from bookservices-protobank. The gRPC protocol implements tokens to ensure the security of services against unauthorized access. External communication is done via REST API, which is processed through bookservices-api-gateway, and then forwarded to microservices using gRPC. JWT is used to ensure the security of external communication.
 
-Each service has its own PostgreSQL database. GORM is used to access these databases using ORM (Object Relational Mapping).
+Each service has its own database using [PostgreSQL](https://www.postgresql.org/docs), and [GORM](https://gorm.io/docs) is used to access these databases using Object Relational Mapping (ORM).
 
 <!-- GETTING STARTED -->
 ## Getting Started
@@ -47,13 +47,11 @@ run go run main.go grpc:start
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-To make it easier for you to try the endpoint service, we have provided a "Run in Postman" button which you can click to directly open Postman with the configured environment and collection.
+To make it easier for you to try the endpoint service, please use the "Run in Postman" button which you can click to directly open Postman with the configured environment and collections.
 
 [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/18402968-9b1f0b22-ebeb-481f-b205-022558c4f089?action=collection%2Ffork&collection-url=entityId%3D18402968-9b1f0b22-ebeb-481f-b205-022558c4f089%26entityType%3Dcollection%26workspaceId%3Da3c53e94-cbc8-4668-9027-b2122261f411)
 
-By using Postman, you can easily execute endpoint services and see the response results in a format that is easy to read and understand. You can also test the various types of requests supported by the endpoint service, such as GET, POST, PUT, DELETE, etc.
-
-For more information on how to use Postman, you can visit the official documentation page at https://learning.postman.com/docs/getting-started/introduction/.
+By using [Postman](https://learning.postman.com/docs/getting-started/introduction/), you can easily execute endpoint services and see the response results in a format that is easy to read and understand. You can also test the various types of requests supported by the endpoint service, such as GET, POST, PUT, DELETE, etc.
 
 <!-- CONTRIBUTING -->
 ## Contributing
