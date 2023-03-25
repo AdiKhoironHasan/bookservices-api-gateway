@@ -24,8 +24,14 @@ type Config struct {
 	AppLang     string
 	AppTimeZone string
 	GRPCPort    int
+	AppKey
 	DBConfig
 	Dependency
+}
+
+type AppKey struct {
+	AppSecretKey  string
+	AppServiceKey string
 }
 
 type Dependency struct {
@@ -60,6 +66,10 @@ func New() *Config {
 			DBPassword: getEnv("DB_PASS", ""),
 			DBTimeZone: getEnv("APP_TIMEZONE", "Asia/Jakarta"),
 			DBLog:      getEnvAsBool("ENABLE_LOGGER", true),
+		},
+		AppKey: AppKey{
+			AppSecretKey:  getEnv("APP_SECRET_KEY", ""),
+			AppServiceKey: getEnv("APP_SERVICE_KEY", ""),
 		},
 		Dependency: Dependency{
 			BookServices: DependBookServices{

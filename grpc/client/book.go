@@ -3,8 +3,8 @@ package client
 import (
 	"context"
 
-	protoBook "github.com/AdiKhoironHasan/bookservice-protobank/proto/book"
 	"github.com/AdiKhoironHasan/bookservices-api-gateway/domain/dto"
+	protoBook "github.com/AdiKhoironHasan/bookservices-protobank/proto/book"
 )
 
 func (r GRPCClient) BooksPing(ctx context.Context) (*protoBook.PingRes, error) {

@@ -3,8 +3,8 @@ package client
 import (
 	"context"
 
-	protoUser "github.com/AdiKhoironHasan/bookservice-protobank/proto/user"
 	"github.com/AdiKhoironHasan/bookservices-api-gateway/domain/dto"
+	protoUser "github.com/AdiKhoironHasan/bookservices-protobank/proto/user"
 )
 
 func (r GRPCClient) UserPing(ctx context.Context) (*protoUser.PingRes, error) {
@@ -41,8 +41,10 @@ func (r GRPCClient) Usertore(ctx context.Context, UserReq *dto.UserReqDTO) (*pro
 	defer cancel()
 
 	protoUserReq := &protoUser.UserStoreReq{
-		Name: UserReq.Name,
-		Role: UserReq.Role,
+		Name:     UserReq.Name,
+		Email:    UserReq.Email,
+		Password: UserReq.Password,
+		Role:     UserReq.Role,
 	}
 
 	_, err := r.user.Store(ctx, protoUserReq)
@@ -74,9 +76,11 @@ func (r GRPCClient) UserUpdate(ctx context.Context, UserReq *dto.UserReqDTO, id 
 	defer cancel()
 
 	protoUserReq := &protoUser.UserUpdateReq{
-		Id:   int64(id),
-		Name: UserReq.Name,
-		Role: UserReq.Role,
+		Id:       int64(id),
+		Name:     UserReq.Name,
+		Email:    UserReq.Email,
+		Password: UserReq.Password,
+		Role:     UserReq.Role,
 	}
 
 	_, err := r.user.Update(ctx, protoUserReq)
@@ -101,4 +105,21 @@ func (r GRPCClient) UserDelete(ctx context.Context, id int) (*protoUser.UserDele
 	}
 
 	return nil, nil
+}
+
+func (r GRPCClient) UserLogin(ctx context.Context, UserReq *dto.LoginReqDTO) (*protoUser.UserLoginRes, error) {
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
+	protoUserReq := &protoUser.UserLoginReq{
+		Email:    UserReq.Email,
+		Password: UserReq.Password,
+	}
+
+	user, err := r.user.Login(ctx, protoUserReq)
+	if err != nil {
+		return nil, err
+	}
+
+	return user, nil
 }

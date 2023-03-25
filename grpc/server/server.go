@@ -6,7 +6,7 @@ import (
 	"github.com/AdiKhoironHasan/bookservices-api-gateway/grpc/handler"
 	"github.com/AdiKhoironHasan/bookservices-api-gateway/grpc/interceptor"
 
-	protoBook "github.com/AdiKhoironHasan/bookservice-protobank/proto/book"
+	protoBook "github.com/AdiKhoironHasan/bookservices-protobank/proto/book"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 )

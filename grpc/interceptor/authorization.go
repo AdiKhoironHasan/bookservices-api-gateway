@@ -5,9 +5,11 @@ import (
 	"encoding/base64"
 	"fmt"
 	"log"
+	"net/http"
 	"os"
 
 	"github.com/AdiKhoironHasan/bookservices-api-gateway/grpc/contract"
+	"github.com/AdiKhoironHasan/bookservices-api-gateway/utils"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
@@ -19,13 +21,18 @@ import (
 func UnaryAuthClientInterceptor() grpc.UnaryClientInterceptor {
 	return func(ctx context.Context, method string, req, reply interface{}, cc *grpc.ClientConn, invoker grpc.UnaryInvoker, opts ...grpc.CallOption) error {
 		// check if method is not protected
+
 		if !contract.ProtectedMethods()[method] {
 			return invoker(ctx, method, req, reply, cc, opts...)
 		}
 
+		// return invoker(func(t string) context.Context {
+		// 	return metadata.AppendToOutgoingContext(ctx, "authorization", t)
+		// }(clientAttach()), method, req, reply, cc, opts...)
+
 		return invoker(func(t string) context.Context {
 			return metadata.AppendToOutgoingContext(ctx, "authorization", t)
-		}(clientAttach()), method, req, reply, cc, opts...)
+		}(clientServiceGRPCData()), method, req, reply, cc, opts...)
 	}
 }
 
@@ -90,6 +97,15 @@ func clientAttach() string {
 	return base64.StdEncoding.EncodeToString([]byte(fmt.Sprintf("%s:%s", username, password)))
 }
 
+func clientServiceGRPCData() string {
+	var secretKey string
+	if val, exist := os.LookupEnv("APP_SECRET_KEY"); exist {
+		secretKey = val
+	}
+
+	return utils.GenerateHMACToken(secretKey)
+}
+
 // serverAuthorize is a private function to handle authorization
 func serverAuthorize(ctx context.Context) error {
 	m, valid := metadata.FromIncomingContext(ctx)
@@ -112,4 +128,18 @@ func serverAuthorize(ctx context.Context) error {
 	log.Printf("AUTH TOKEN: %s\n", tokenAuth)
 
 	return nil
+}
+
+func UnaryConnClientInterceptor() grpc.UnaryClientInterceptor {
+	return func(ctx context.Context, method string, req, reply interface{}, cc *grpc.ClientConn, invoker grpc.UnaryInvoker, opts ...grpc.CallOption) error {
+		err := invoker(ctx, method, req, reply, cc, opts...)
+		// Memeriksa apakah pemanggilan RPC menghasilkan kesalahan koneksi
+
+		if err != nil && status.Code(err) == codes.Unavailable {
+			// Mengubah kode kesalahan menjadi 500
+			log.Fatal("Failed to connect gRPC server : ", err.Error())
+			err = status.New(http.StatusInternalServerError, "Failed to connect gRPC server").Err()
+		}
+		return err
+	}
 }

@@ -4,7 +4,7 @@ import (
 	"github.com/AdiKhoironHasan/bookservices-api-gateway/config"
 	"github.com/AdiKhoironHasan/bookservices-api-gateway/domain/service"
 
-	protoBook "github.com/AdiKhoironHasan/bookservice-protobank/proto/book"
+	protoBook "github.com/AdiKhoironHasan/bookservices-protobank/proto/book"
 )
 
 // Interface is an interface

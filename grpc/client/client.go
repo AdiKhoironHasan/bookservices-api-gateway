@@ -3,8 +3,8 @@ package client
 import (
 	"google.golang.org/grpc"
 
-	protoBook "github.com/AdiKhoironHasan/bookservice-protobank/proto/book"
-	protoUser "github.com/AdiKhoironHasan/bookservice-protobank/proto/user"
+	protoBook "github.com/AdiKhoironHasan/bookservices-protobank/proto/book"
+	protoUser "github.com/AdiKhoironHasan/bookservices-protobank/proto/user"
 )
 
 // GRPCClient is a struct

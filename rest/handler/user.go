@@ -1,11 +1,11 @@
 package handler
 
 import (
-	"fmt"
 	"net/http"
 	"strconv"
 
 	"github.com/AdiKhoironHasan/bookservices-api-gateway/domain/dto"
+	"github.com/AdiKhoironHasan/bookservices-api-gateway/utils"
 	"github.com/gin-gonic/gin"
 	"google.golang.org/grpc/status"
 )
@@ -168,7 +168,6 @@ func (r *UserHandler) Delete(c *gin.Context) {
 
 	_, err = r.client.UserDelete(c, Id)
 	if err != nil {
-		fmt.Println(err.Error())
 		if status, ok := status.FromError(err); ok {
 			c.AbortWithStatusJSON(int(status.Code()), dto.ApiResDTO{
 				Code:    int(status.Code()),
@@ -184,3 +183,88 @@ func (r *UserHandler) Delete(c *gin.Context) {
 	},
 	)
 }
+
+func (r *UserHandler) Login(c *gin.Context) {
+	loginReq := dto.LoginReqDTO{}
+
+	err := c.Bind(&loginReq)
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusUnprocessableEntity, dto.ApiResDTO{
+			Code:    http.StatusUnprocessableEntity,
+			Message: err.Error(),
+		})
+		return
+	}
+
+	data, err := r.client.UserLogin(c, &loginReq)
+	if err != nil {
+		if status, ok := status.FromError(err); ok {
+			c.AbortWithStatusJSON(int(status.Code()), dto.ApiResDTO{
+				Code:    int(status.Code()),
+				Message: status.Message(),
+			})
+			return
+		}
+	}
+
+	token, err := utils.GenerateToken(data.User.Email)
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, dto.ApiResDTO{
+			Code:    http.StatusInternalServerError,
+			Message: "Failed to generate token",
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, dto.ApiResDTO{
+		Code:    http.StatusOK,
+		Message: "Success login user",
+		Data:    token,
+	})
+}
+
+// func (r *UserHandler) Logout(c *gin.Context) {
+// 	token := c.Request.Header.Get("Authorization")
+// 	tokenReq := dto.AuthTokenDTO{
+// 		Token: token,
+// 	}
+
+// 	_, err := r.client.UserLogout(c, &tokenReq)
+// 	if err != nil {
+// 		if status, ok := status.FromError(err); ok {
+// 			c.AbortWithStatusJSON(int(status.Code()), dto.ApiResDTO{
+// 				Code:    int(status.Code()),
+// 				Message: status.Message(),
+// 			})
+// 			return
+// 		}
+// 	}
+
+// 	c.JSON(http.StatusOK, dto.ApiResDTO{
+// 		Code:    http.StatusOK,
+// 		Message: "Success logout user",
+// 	})
+// }
+
+// func (r *UserHandler) Verify(c *gin.Context) {
+// 	token := c.Request.Header.Get("Authorization")
+// 	tokenReq := dto.AuthTokenDTO{
+// 		Token: token,
+// 	}
+
+// 	_, err := r.client.UserVerify(c, &tokenReq)
+// 	if err != nil {
+// 		if status, ok := status.FromError(err); ok {
+// 			c.AbortWithStatusJSON(int(status.Code()), dto.ApiResDTO{
+// 				Code:    int(status.Code()),
+// 				Message: status.Message(),
+// 			})
+// 			return
+// 		}
+// 	}
+
+// 	c.JSON(http.StatusOK, dto.ApiResDTO{
+// 		Code:    http.StatusOK,
+// 		Message: "Token is valid",
+// 	})
+// }

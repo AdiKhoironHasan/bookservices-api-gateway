@@ -48,7 +48,10 @@ func NewGRPCConn_Book(cfg *config.Config) (*grpc.ClientConn, error) {
 
 	conn, err := grpc.Dial(*Address,
 		grpc.WithTransportCredentials(insecure.NewCredentials()),
-		grpc.WithChainUnaryInterceptor(interceptor.UnaryAuthClientInterceptor()),
+		grpc.WithChainUnaryInterceptor(
+			interceptor.UnaryAuthClientInterceptor(),
+			interceptor.UnaryConnClientInterceptor(),
+		),
 		grpc.WithStreamInterceptor(interceptor.StreamAuthClientInterceptor()),
 	)
 	if err != nil {
@@ -68,7 +71,10 @@ func NewGRPCConn_User(cfg *config.Config) (*grpc.ClientConn, error) {
 
 	conn, err := grpc.Dial(*Address,
 		grpc.WithTransportCredentials(insecure.NewCredentials()),
-		grpc.WithChainUnaryInterceptor(interceptor.UnaryAuthClientInterceptor()),
+		grpc.WithChainUnaryInterceptor(
+			interceptor.UnaryAuthClientInterceptor(),
+			interceptor.UnaryConnClientInterceptor(),
+		),
 		grpc.WithStreamInterceptor(interceptor.StreamAuthClientInterceptor()),
 	)
 	if err != nil {
