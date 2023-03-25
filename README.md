@@ -1,9 +1,9 @@
 # Microservices App (gRPC + REST)
 
+![alt text](https://github.com/AdiKhoironHasan/bookservices-api-gateway/blob/main/var/app/image/system-design.png?raw=true)
+
 <!-- ABOUT THE PROJECT -->
 ## About The Project
-
-![alt text](https://github.com/AdiKhoironHasan/bookservices-api-gateway/blob/main/var/app/image/system-design.png?raw=true)
 
 The Book Services project is a set of microservices that enables users to manage books and users data. It consists of three main services: API Gateway Services, Book Services, and User Services. The communication between these services is done through gRPC, using the ProtoBank contract. The gRPC protocol implements rtoken to ensure the security of services against unauthorized access.
 
