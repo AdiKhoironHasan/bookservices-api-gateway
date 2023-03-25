@@ -31,19 +31,19 @@ go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
 ```
 go get all
 ```
-6. Migrate database.
+5. Migrate database.
 ```
 go run main.go db:migrate
 ```
-5. Generate Go code from the proto file.
+6. Generate Go code from the proto file.
 ```
 make run-proto
 ```
-6. To start the service with REST API.
+7. To start the service with REST API.
 ```
 go run main.go
 ```
-7. To start the service with gRPC.
+8. To start the service with gRPC.
 ```
 run go run main.go grpc:start
  ```
