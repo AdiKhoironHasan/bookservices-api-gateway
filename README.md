@@ -67,12 +67,17 @@ Don't forget to give the project a star! Thanks again!
 4. Push to the Branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
+<!-- THANK YOU -->
+## Thank You
+Many Thanks to [Ach Jailani](https://github.com/achjailani) who let me use his grpc boilerplate for this project.
+
 <!-- CONTACT -->
 ## Contact
 
 [Adi Khoiron Hasan](https://www.linkedin.com/in/adi-khoiron-hasan) - adikhoironhasan@gmail.com
 
 ### Project Link
+- go-simple-grpc [https://github.com/achjailani/go-simple-grpc](https://github.com/achjailani/go-simple-grpc)
 - service-api-gateway [https://github.com/AdiKhoironHasan/bookservices-api-gateway](https://github.com/AdiKhoironHasan/bookservices-api-gateway)
 - service-book [https://github.com/AdiKhoironHasan/bookservices-users](https://github.com/AdiKhoironHasan/bookservices-users)
 - service-user [https://github.com/AdiKhoironHasan/bookservices-books](https://github.com/AdiKhoironHasan/bookservices-books)
